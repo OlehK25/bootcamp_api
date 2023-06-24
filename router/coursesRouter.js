@@ -2,6 +2,7 @@ const express = require("express");
 const coursesController = require("../controllers/coursesController");
 const Course = require("../models/courseModel");
 const advancedResults = require("../middleware/advancedResults");
+const authorization = require("../middleware/auth");
 
 const router = express.Router({ mergeParams: true });
 
@@ -14,12 +15,24 @@ router
     }),
     coursesController.getAllCourses
   )
-  .post(coursesController.addCourse);
+  .post(
+    authorization.protect,
+    authorization.authorize("publisher", "admin"),
+    coursesController.addCourse
+  );
 
 router
   .route("/:id")
   .get(coursesController.getCourse)
-  .put(coursesController.updateCourse)
-  .delete(coursesController.deleteCourse);
+  .put(
+    authorization.protect,
+    authorization.authorize("publisher", "admin"),
+    coursesController.updateCourse
+  )
+  .delete(
+    authorization.protect,
+    authorization.authorize("publisher", "admin"),
+    coursesController.deleteCourse
+  );
 
 module.exports = router;
