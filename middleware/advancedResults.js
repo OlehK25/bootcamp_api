@@ -37,7 +37,7 @@ const advancedResults = (model, populate) => async (req, res, next) => {
 
   // Pagination
   const page = parseInt(req.query.page, 10) || 1;
-  const limit = parseInt(req.query.limit, 10) || 5;
+  const limit = parseInt(req.query.limit, 10) || 25;
   const start = (page - 1) * limit;
   const end = page * limit;
   const total = await model.countDocuments();
