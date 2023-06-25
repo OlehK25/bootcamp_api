@@ -4,6 +4,12 @@ const dotenv = require("dotenv");
 const morgan = require("morgan");
 const fileupload = require("express-fileupload");
 const cookieParser = require("cookie-parser");
+const mongoSanitize = require("express-mongo-sanitize");
+const helmet = require("helmet");
+const xss = require("xss-clean");
+const rateLimit = require("express-rate-limit");
+const hpp = require("hpp");
+const cors = require("cors");
 const errorHandler = require("./middleware/error");
 
 const mongoose = require("mongoose");
@@ -23,6 +29,7 @@ const courses = require("./router/coursesRouter");
 const auth = require("./router/authRouter");
 const users = require("./router/usersRouter");
 const reviews = require("./router/reviewsRouter");
+const http = require("http");
 
 const app = express();
 
@@ -37,6 +44,29 @@ if (process.env.NODE_ENV === "development") app.use(morgan("dev"));
 
 // File uploading
 app.use(fileupload());
+
+// Sanitize data
+app.use(mongoSanitize());
+
+// Set security headers
+app.use(helmet());
+
+// prevent XSS atack
+app.use(xss());
+
+// Rate limiting (1000 request for 10min)
+const limiter = rateLimit({
+  windowMs: 10 * 60 * 1000, // 10 min
+  max: 1000,
+});
+
+app.use(limiter);
+
+// Prevent http param pollution
+app.use(hpp());
+
+// Enable CORS
+app.use(cors());
 
 // Set static folder
 app.use(express.static(path.join(__dirname, "public")));
