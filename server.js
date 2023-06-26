@@ -20,7 +20,7 @@ dotenv.config({ path: "./config/config.env" });
 // Connect to DB
 mongoose
   // .connect(process.env.DATABASE_LOCAL, {
-  .connect(process.env.DATABASE_URL)
+  .connect(process.env.DATABASE_URI)
   .then(() => console.log(`MongoDB connected: ${mongoose.connection.host}`));
 
 // Route filer
