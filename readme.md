@@ -5,7 +5,7 @@
 ## 🕸️ Overview
 
 The project represents an extensive and detailed backend API that I have developed for DevCamper, a bootcamp directory platform. It allowed me to delve deeply into Node, Express, and MongoDB, and overcome various challenges encountered during the project's life cycle. 
-Visit the live app [here](https://devcamper-595655ab89de.herokuapp.com/)
+
 
 ## 🗒️ Technology Stack
 
